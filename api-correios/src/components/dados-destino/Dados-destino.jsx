@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { useDataContext } from "../provedor-dados/DataProvider";
 
 const BackColor = styled.div`
     background-color: #FFCD40;
@@ -36,14 +37,24 @@ const StyledButton = styled(Button)`
     justify-content: center;
     margin:0 auto;
 `;
+const OrangeRetangule = styled.div`
+    width: 500px;
+    height:500px;
+    background-color: #cf9f1c;
+    border-radius: 20px;
+`
+const ContainerRetangule = styled.div`
+`
 //aqui é o 
 const DadosDestino = ()=>{
+    const { senderData } = useDataContext();
     const navigate = useNavigate();
     const handleAvancarClick = () => {
         navigate('/');
       }
     return (
         <BackColor>
+            <OrangeRetangule></OrangeRetangule>
             <Retangule>
                 <h1>Dados de destino</h1>
                 <FormField>
