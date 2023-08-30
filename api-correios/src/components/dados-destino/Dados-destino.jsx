@@ -65,6 +65,17 @@ const ContainerRetangule = styled.div`
 //aqui é o 
 const DadosDestino = () => {
     const { senderData } = useDataContext();
+    const {receiverData, setReceiverData} = useDataContext()
+    const handleAddressChange = event => {
+        const { name, value } = event.target;
+        setReceiverData(prevData => ({
+            ...prevData,
+            address: {
+                ...prevData.address,
+                [name]: value
+            }
+        }));
+    };
     const navigate = useNavigate();
     const handleVoltarClick = () => {
         navigate('/');
@@ -90,27 +101,37 @@ const DadosDestino = () => {
                             required
                             id="outlined-required"
                             label="Nome completo"
+                            value={receiverData.fullname}
+                            onChange={event => setReceiverData(prevData =>({...prevData,fullname: event.target.value}))}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="CPF"
+                            value={receiverData.cpf}
+                            onChange={event => setReceiverData(prevData =>({...prevData,cpf: event.target.value}))}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Telefone"
+                            value={receiverData.phone}
+                            onChange={event => setReceiverData(prevData =>({...prevData,phone: event.target.value}))}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Email"
-
+                            value={receiverData.email}
+                            onChange={event => setReceiverData(prevData =>({...prevData,email: event.target.value}))}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="CEP"
+                            name="cep"
+                            value={receiverData.address.cep}
+                            onChange={handleAddressChange}
                         />
                     </FormField>
                     <FormField>
@@ -118,31 +139,52 @@ const DadosDestino = () => {
                             required
                             id="outlined-required"
                             label="Estado"
+                            name="state"
+                            value={receiverData.address.state}
+                            onChange={handleAddressChange}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Cidade"
+                            name="city"
+                            value={receiverData.address.city}
+                            onChange={handleAddressChange}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Bairro"
+                            name="neighborhood"
+                            value={receiverData.address.neighborhood}
+                            onChange={handleAddressChange}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Rua"
+                            name="street"
+                            value={receiverData.address.street}
+                            onChange={handleAddressChange}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Número"
+                            name="number"
+                            value={receiverData.address.number}
+                            onChange={handleAddressChange}
                         />
                         <TextField
                             required
                             id="outlined-required"
                             label="Complemento"
+                            name="complement"
+                            value={receiverData.address.complement}
+                            onChange={handleAddressChange}
+                            sx={{
+                                marginTop: 2
+                            }}
                         />
                     </FormField>
                     <ContainerBtn>
