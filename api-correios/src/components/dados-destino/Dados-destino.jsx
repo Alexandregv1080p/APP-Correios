@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useDataContext } from "../provedor-dados/DataProvider";
+import InputMask from 'react-input-mask';
+import axios from 'axios';
 
 const BackColor = styled.div`
     background-color: #FFCD40;
@@ -34,7 +36,7 @@ const ContainerBtn = styled.div`
     justify-content: center;
 `
 const OrangeRetangule = styled.div`
-    width: 300px;
+    width: 400px;
     height: 130px;
     background-color: #cf9f1c;
     border-radius: 40px;
@@ -45,6 +47,7 @@ const OrangeRetangule = styled.div`
     & p{
         color: white;
         margin-top: 10px;
+        position: relative;
     }
 `
 const OrangeContainerRetangule = styled.div`
@@ -65,7 +68,9 @@ const ContainerRetangule = styled.div`
 //aqui é o 
 const DadosDestino = () => {
     const { senderData } = useDataContext();
-    const {receiverData, setReceiverData} = useDataContext()
+
+    const { receiverData, setReceiverData } = useDataContext()
+
     const handleAddressChange = event => {
         const { name, value } = event.target;
         setReceiverData(prevData => ({
@@ -76,10 +81,60 @@ const DadosDestino = () => {
             }
         }));
     };
+
     const navigate = useNavigate();
+
+    const handleCpfChange = event => {
+        const rawCpf = event.target.value.replace(/\D/g, '');
+        const formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        setReceiverData(prevData => ({ ...prevData, cpf: formattedCpf }));
+    };
+
+    const handlePhoneChange = event => {
+        const rawPhone = event.target.value.replace(/\D/g, '');
+        const formattedPhone = rawPhone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+        setReceiverData(prevData => ({ ...prevData, phone: formattedPhone }));
+    };
+
+    const handleCepChange = async event => {
+        const rawCep = event.target.value.replace(/\D/g, '');
+        const formattedCep = rawCep.replace(/(\d{5})(\d{3})/, "$1-$2");
+        setReceiverData(prevData => ({
+            ...prevData,
+            address: {
+                ...prevData.address,
+                cep: formattedCep,
+            },
+        }));
+        //Aqui será a função que basicamente irá validar os meus dados no viacep
+        if (rawCep.length === 8) {
+            try {
+                const response = await axios.get(`https://viacep.com.br/ws/${rawCep}/json/`);
+                const addressData = response.data;
+
+                if (!addressData.erro) {
+                    setReceiverData(prevData => ({
+                        ...prevData,
+                        address: {
+                            ...prevData.address,
+                            state: addressData.uf,
+                            city: addressData.localidade,
+                            neighborhood: addressData.bairro,
+                            street: addressData.logradouro,
+                        },
+                    }));
+                }
+            } catch (error) {
+                console.error("Error fetching address data:", error);
+            }
+        }
+    };
+
+
     const handleVoltarClick = () => {
         navigate('/');
     }
+
     const handleAvancarClick = () => {
         navigate('/pacotes');
     }
@@ -102,37 +157,49 @@ const DadosDestino = () => {
                             id="outlined-required"
                             label="Nome completo"
                             value={receiverData.fullname}
-                            onChange={event => setReceiverData(prevData =>({...prevData,fullname: event.target.value}))}
+                            onChange={event => setReceiverData(prevData => ({ ...prevData, fullname: event.target.value }))}
                         />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="CPF"
+                        <InputMask
+                            mask="999.999.999-99"
                             value={receiverData.cpf}
-                            onChange={event => setReceiverData(prevData =>({...prevData,cpf: event.target.value}))}
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Telefone"
+                            onChange={handleCpfChange}
+                        >
+                            {() => <TextField required id="outlined-required" label="CPF" />}
+                        </InputMask>
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={receiverData.phone}
-                            onChange={event => setReceiverData(prevData =>({...prevData,phone: event.target.value}))}
-                        />
+                            onChange={handlePhoneChange}
+                        >
+                            {() => (
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Telefone"
+                                />
+                            )}
+                        </InputMask>
                         <TextField
                             required
                             id="outlined-required"
                             label="Email"
                             value={receiverData.email}
-                            onChange={event => setReceiverData(prevData =>({...prevData,email: event.target.value}))}
+                            onChange={event => setReceiverData(prevData => ({ ...prevData, email: event.target.value }))}
                         />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="CEP"
-                            name="cep"
+                        <InputMask
+                            mask="99999-999"
                             value={receiverData.address.cep}
-                            onChange={handleAddressChange}
-                        />
+                            onChange={handleCepChange}
+                        >
+                            {() => (
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="CEP"
+                                    name="cep"
+                                />
+                            )}
+                        </InputMask>
                     </FormField>
                     <FormField>
                         <TextField
@@ -174,6 +241,9 @@ const DadosDestino = () => {
                             name="number"
                             value={receiverData.address.number}
                             onChange={handleAddressChange}
+                            inputProps={{
+                                inputMode: "numeric", 
+                            }}
                         />
                         <TextField
                             required
@@ -188,13 +258,14 @@ const DadosDestino = () => {
                         />
                     </FormField>
                     <ContainerBtn>
-                    <Button onClick={handleAvancarClick} variant="contained"
-                        sx={{
-                            width:300
-                        }}
-                        >Avançar</Button>                    </ContainerBtn>
+                        <Button onClick={handleAvancarClick} variant="contained"
+                            sx={{
+                                width: 300
+                            }}
+                        >Avançar</Button>                    
+                    </ContainerBtn>
                 </Retangule>
-                
+
             </ContainerRetangule>
         </BackColor>
     )

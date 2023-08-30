@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
+import InputMask from 'react-input-mask';
 
 const BackColor = styled.div`
     background-color: #FFCD40;
@@ -35,10 +36,17 @@ const ContainerBtn = styled.div`
     display: flex;
     justify-content: center;
 `
-//aqui é o sender
 const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();
+
     const navigate = useNavigate();
+
+    const handleCpfChange = event => {
+        const rawCpf = event.target.value.replace(/\D/g, ''); 
+        const formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"); 
+        setSenderData(prevData => ({ ...prevData, cpf: formattedCpf }));
+    };
+
     const handleAddressChange = event => {
         const { name, value } = event.target;
         setSenderData(prevData => ({
@@ -49,10 +57,12 @@ const DadosUsuario = () => {
             }
         }));
     };
+
     const handleAvancarClick = () => {
         navigate('/destino');
         console.log(senderData)
     };
+
     return (
         <BackColor>
             <Retangule>
@@ -65,13 +75,13 @@ const DadosUsuario = () => {
                         value={senderData.fullname}
                         onChange={event => setSenderData(prevData => ({ ...prevData, fullname: event.target.value }))}
                     />
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="CPF"
+                    <InputMask
+                        mask="999.999.999-99"
                         value={senderData.cpf}
-                        onChange={event => setSenderData(prevData => ({ ...prevData, cpf: event.target.value }))}
-                    />
+                        onChange={handleCpfChange}
+                    >
+                        {() => <TextField required id="outlined-required" label="CPF" />}
+                    </InputMask>
                     <TextField
                         required
                         id="outlined-required"
