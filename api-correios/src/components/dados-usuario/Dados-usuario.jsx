@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
+import axios from 'axios';
 
 const BackColor = styled.div`
     background-color: #FFCD40;
@@ -13,6 +14,7 @@ const BackColor = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 `
 const Retangule = styled.div`
     width: 1235px;
@@ -21,6 +23,18 @@ const Retangule = styled.div`
     border-radius: 20px;
     & h1{
         text-align: center;
+        margin-top: 20px;
+    }
+`
+const Retangule2 = styled.div`
+    width: 835px;
+    height:120px;
+    margin-bottom: 20px;
+    background-color: #E1E1E1;
+    border-radius: 20px;
+    & h1,p{
+        text-align: center;
+        margin-top: 10px;
     }
 `
 const FormField = styled.div`
@@ -57,6 +71,43 @@ const DadosUsuario = () => {
             }
         }));
     };
+    const handleCepChange = async event => {
+        const rawCep = event.target.value.replace(/\D/g, '');
+        const formattedCep = rawCep.replace(/(\d{5})(\d{3})/, "$1-$2");
+        setSenderData(prevData => ({
+            ...prevData,
+            address: {
+                ...prevData.address,
+                cep: formattedCep,
+            },
+        }));
+        if (rawCep.length === 8) {
+            try {
+                const response = await axios.get(`https://viacep.com.br/ws/${rawCep}/json/`);
+                const addressData = response.data;
+
+                if (!addressData.erro) {
+                    setSenderData(prevData => ({
+                        ...prevData,
+                        address: {
+                            ...prevData.address,
+                            uf: addressData.uf,
+                            city: addressData.localidade,
+                            neighborhood: addressData.bairro,
+                            street: addressData.logradouro,
+                        },
+                    }));
+                }
+            } catch (error) {
+                console.error("Error fetching address data:", error);
+            }
+        }
+    };
+    const handlePhoneChange = event => {
+        const rawPhone = event.target.value.replace(/\D/g, '');
+        const formattedPhone = rawPhone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+        setSenderData(prevData => ({ ...prevData, phone: formattedPhone }));
+    };
 
     const handleAvancarClick = () => {
         navigate('/destino');
@@ -65,6 +116,13 @@ const DadosUsuario = () => {
 
     return (
         <BackColor>
+            <Retangule2>
+                <h1>Olá, bem vindo a minha aplicação</h1>
+                <p>A medida que for clicando em avançar, os dados aparecerão em cima. Não atualize a página durante o processo de cadastros dos dados,
+                    caso atualize, volte para a etapa 1.
+                    Obrigado!
+                </p>
+            </Retangule2>
             <Retangule>
                 <h1>Dados de origem</h1>
                 <FormField>
@@ -82,13 +140,19 @@ const DadosUsuario = () => {
                     >
                         {() => <TextField required id="outlined-required" label="CPF" />}
                     </InputMask>
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="Telefone"
-                        value={senderData.phone}
-                        onChange={event => setSenderData(prevData => ({ ...prevData, phone: event.target.value }))}
-                    />
+                    <InputMask
+                            mask="(99) 99999-9999"
+                            value={senderData.phone}
+                            onChange={handlePhoneChange}
+                        >
+                            {() => (
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="Telefone"
+                                />
+                            )}
+                        </InputMask>
                     <TextField
                         required
                         id="outlined-required"
@@ -97,15 +161,20 @@ const DadosUsuario = () => {
                         onChange={event => setSenderData(prevData => ({ ...prevData, email: event.target.value }))}
 
                     />
-                    <TextField
-                        required
-                        id="outlined-required"
-                        label="CEP"
-                        name="cep"
-                        value={senderData.address.cep}
-                        onChange={handleAddressChange}
-                        disabled={false}
-                    />
+                    <InputMask
+                            mask="99999-999"
+                            value={senderData.address.cep}
+                            onChange={handleCepChange}
+                        >
+                            {() => (
+                                <TextField
+                                    required
+                                    id="outlined-required"
+                                    label="CEP"
+                                    name="cep"
+                                />
+                            )}
+                        </InputMask>
                 </FormField>
                 <FormField>
                     <TextField
@@ -157,7 +226,13 @@ const DadosUsuario = () => {
                         label="Número"
                         name="number"
                         value={senderData.address.number}
-                        onChange={handleAddressChange}
+                        onChange={event => {
+                            const numericValue = event.target.value.replace(/\D/g, ''); 
+                            handleAddressChange({ target: { name: 'number', value: numericValue } }); 
+                        }}
+                        inputProps={{
+                            inputMode: "numeric", 
+                        }}
                     />
                     <TextField
                         sx={{
@@ -179,6 +254,7 @@ const DadosUsuario = () => {
                 </ContainerBtn>
 
             </Retangule>
+            
         </BackColor>
     )
 }

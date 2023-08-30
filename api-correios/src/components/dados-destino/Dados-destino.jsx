@@ -65,7 +65,7 @@ const ContainerRetangule = styled.div`
     margin-top: 100px;
 `
 
-//aqui é o 
+//aqui é o Receiver
 const DadosDestino = () => {
     const { senderData } = useDataContext();
 
