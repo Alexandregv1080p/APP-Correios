@@ -24,22 +24,19 @@ const Retangule = styled.div`
 `
 const FormField = styled.div`
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
+    justify-content: space-around;
+    justify-items: center;
     position: relative;
     margin: 50px;
+    margin-bottom: 20px;
 `
-const StyledButton = styled(Button)`
-    position: relative;
+const ContainerBtn = styled.div`
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin:0 auto;
-`;
-
+`
 //aqui é o sender
-const DadosUsuario = ()=>{
+const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();
     const navigate = useNavigate();
     const handleAddressChange = event => {
@@ -52,10 +49,10 @@ const DadosUsuario = ()=>{
             }
         }));
     };
-  const handleAvancarClick = () => {
-    navigate('/destino');
-    console.log(senderData)
-  };
+    const handleAvancarClick = () => {
+        navigate('/destino');
+        console.log(senderData)
+    };
     return (
         <BackColor>
             <Retangule>
@@ -65,30 +62,30 @@ const DadosUsuario = ()=>{
                         required
                         id="outlined-required"
                         label="Nome completo"
-                        value={senderData.fullname} 
+                        value={senderData.fullname}
                         onChange={event => setSenderData(prevData => ({ ...prevData, fullname: event.target.value }))}
                     />
                     <TextField
                         required
                         id="outlined-required"
                         label="CPF"
-                        value={senderData.cpf} 
+                        value={senderData.cpf}
                         onChange={event => setSenderData(prevData => ({ ...prevData, cpf: event.target.value }))}
                     />
                     <TextField
                         required
                         id="outlined-required"
                         label="Telefone"
-                        value={senderData.phone} 
+                        value={senderData.phone}
                         onChange={event => setSenderData(prevData => ({ ...prevData, phone: event.target.value }))}
                     />
                     <TextField
                         required
                         id="outlined-required"
                         label="Email"
-                        value={senderData.email} 
+                        value={senderData.email}
                         onChange={event => setSenderData(prevData => ({ ...prevData, email: event.target.value }))}
-                    
+
                     />
                     <TextField
                         required
@@ -98,7 +95,7 @@ const DadosUsuario = ()=>{
                         value={senderData.address.cep}
                         onChange={handleAddressChange}
                         disabled={false}
-                     />
+                    />
                 </FormField>
                 <FormField>
                     <TextField
@@ -108,15 +105,15 @@ const DadosUsuario = ()=>{
                         name="state"
                         value={senderData.address.state}
                         onChange={handleAddressChange}
-                     />
-                     <TextField
+                    />
+                    <TextField
                         required
                         id="outlined-required"
                         label="UF"
                         name="uf"
                         value={senderData.address.uf}
                         onChange={handleAddressChange}
-                     />
+                    />
                     <TextField
                         required
                         id="outlined-required"
@@ -124,7 +121,7 @@ const DadosUsuario = ()=>{
                         name="city"
                         value={senderData.address.city}
                         onChange={handleAddressChange}
-                     />
+                    />
                     <TextField
                         required
                         id="outlined-required"
@@ -132,7 +129,7 @@ const DadosUsuario = ()=>{
                         name="neighborhood"
                         value={senderData.address.neighborhood}
                         onChange={handleAddressChange}
-                     />
+                    />
                     <TextField
                         required
                         id="outlined-required"
@@ -140,25 +137,36 @@ const DadosUsuario = ()=>{
                         name="street"
                         value={senderData.address.street}
                         onChange={handleAddressChange}
-                     />
+                    />
                     <TextField
+                        sx={{
+                            marginTop:2
+                        }}
                         required
                         id="outlined-required"
                         label="Número"
                         name="number"
                         value={senderData.address.number}
                         onChange={handleAddressChange}
-                     />
+                    />
                     <TextField
-                        
+                        sx={{
+                            marginTop:2
+                        }}
                         id="outlined-required"
                         label="Complemento"
                         name="complement"
                         value={senderData.address.complement}
                         onChange={handleAddressChange}
-                     />
+                    />
                 </FormField>
-                <StyledButton variant="contained" onClick={handleAvancarClick}>Avançar</StyledButton>
+                <ContainerBtn>
+                    <Button onClick={handleAvancarClick} variant="contained"
+                        sx={{
+                            width: 300
+                        }}
+                    >Avançar</Button>
+                </ContainerBtn>
 
             </Retangule>
         </BackColor>
