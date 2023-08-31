@@ -55,7 +55,7 @@ const DadosPacote = () => {
                 
             });
             console.log(response.data)
-            const { carrier, price, shipment } = response.data;
+            const { carrier, price, shipment,discount } = response.data;
     
             if (shipment && shipment.length > 0) {
                 const bestOption = shipment.reduce((prev, current) => prev.price < current.price ? prev : current);

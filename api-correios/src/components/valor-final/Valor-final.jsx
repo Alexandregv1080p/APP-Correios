@@ -2,6 +2,7 @@ import React from "react";
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import { useLocation } from 'react-router-dom';
+import { ContainerBtn } from "../../style";
 
 const BackColor = styled.div`
     background-color: #FFCD40;
@@ -22,25 +23,36 @@ const Retangule = styled.div`
     }
 `;
 
-const StyledButton = styled(Button)`
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-`;
-
 const ValorFinal = () => {
     const location = useLocation();
     const { carrier, price, shipment, code } = location.state;
+    const bestOption = shipment.find(option => option.carrier === carrier);
+    if (!bestOption) {
+        return (
+            <BackColor>
+                <Retangule>
+                    <h1>Nenhuma opção de frete encontrada.</h1>
+                </Retangule>
+            </BackColor>
+        );
+    }
 
+    const { discount } = bestOption;
+    const savedAmount = price - discount;
     return (
         <BackColor>
             <Retangule>
                 <h1>Valor final do frete</h1>
                 <p>O melhor para o seu destino é {carrier} com o valor de {price} e prazo de entrega.</p>
                 {code && <p>Código de rastreio: {code}</p>}
-                <StyledButton variant="contained">Avançar</StyledButton>
+                <h3>Sua melhor economia foi de {savedAmount}</h3>
+                <ContainerBtn>
+                    <Button onClick={handleAvancarClick} variant="contained"
+                        sx={{
+                            width: 300
+                        }}  
+                    >Postar</Button>
+                </ContainerBtn>
             </Retangule>
         </BackColor>
     );
