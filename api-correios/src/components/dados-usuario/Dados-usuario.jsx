@@ -6,50 +6,8 @@ import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
+import { BackColor, Retangule, Retangule2, FormField,ContainerBtn} from "../../style";
 
-const BackColor = styled.div`
-    background-color: #FFCD40;
-    width: 100%;
-    height: 965px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-`
-const Retangule = styled.div`
-    width: 1235px;
-    height:500px;
-    background-color: #E1E1E1;
-    border-radius: 20px;
-    & h1{
-        text-align: center;
-        margin-top: 20px;
-    }
-`
-const Retangule2 = styled.div`
-    width: 835px;
-    height:120px;
-    margin-bottom: 20px;
-    background-color: #E1E1E1;
-    border-radius: 20px;
-    & h1,p{
-        text-align: center;
-        margin-top: 10px;
-    }
-`
-const FormField = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    justify-items: center;
-    position: relative;
-    margin: 50px;
-    margin-bottom: 20px;
-`
-const ContainerBtn = styled.div`
-    display: flex;
-    justify-content: center;
-`
 const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();
 

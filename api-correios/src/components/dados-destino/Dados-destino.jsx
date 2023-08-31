@@ -6,64 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDataContext } from "../provedor-dados/DataProvider";
 import InputMask from 'react-input-mask';
 import axios from 'axios';
-
-const BackColor = styled.div`
-    background-color: #FFCD40;
-    width: 100%;
-    height: 965px;
-`
-const Retangule = styled.div`
-    width: 1235px;
-    height:500px;
-    background-color: #E1E1E1;
-    border-radius: 20px;
-    & h1{
-        text-align: center;
-    }
-`
-
-const FormField = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    justify-items: center;
-    position: relative;
-    margin: 50px;
-    margin-bottom: 20px;
-`
-const ContainerBtn = styled.div`
-    display: flex;
-    justify-content: center;
-`
-const OrangeRetangule = styled.div`
-    width: 400px;
-    height: 130px;
-    background-color: #cf9f1c;
-    border-radius: 40px;
-    margin-bottom: 50px;
-    transform: translateX(-50%);
-    text-align: center;
-    cursor: pointer;
-    & p{
-        color: white;
-        margin-top: 10px;
-        position: relative;
-    }
-`
-const OrangeContainerRetangule = styled.div`
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    position: relative;
-`
-const ContainerRetangule = styled.div`
-    background-color: #FFCD40;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-top: 100px;
-`
+import { BackColor2, ContainerBtn, ContainerRetangule, FormField, OrangeContainerRetangule, OrangeRetangule, Retangule } from "../../style";
 
 //aqui é o Receiver
 const DadosDestino = () => {
@@ -139,7 +82,7 @@ const DadosDestino = () => {
         navigate('/pacotes');
     }
     return (
-        <BackColor>
+        <BackColor2>
             <OrangeContainerRetangule>
                 <OrangeRetangule onClick={handleVoltarClick}>
                     <h3>Dados Origem</h3>
@@ -147,6 +90,7 @@ const DadosDestino = () => {
                     <p>{senderData.address.cep} - {senderData.address.state} - {senderData.address.uf} - {senderData.address.city}</p>
                     <p>{senderData.address.neighborhood} - {senderData.address.street} - {senderData.address.number} - {senderData.address.complement}</p>
                 </OrangeRetangule>
+
             </OrangeContainerRetangule>
             <ContainerRetangule>
                 <Retangule>
@@ -267,7 +211,7 @@ const DadosDestino = () => {
                 </Retangule>
 
             </ContainerRetangule>
-        </BackColor>
+        </BackColor2>
     )
 }
 

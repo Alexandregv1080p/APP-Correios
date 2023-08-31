@@ -6,26 +6,10 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
+import { BackColor, ContainerBtn, ContainerPacote, ContainerRetangule, GreenRetangule, IconContainer, OrangeContainerRetangule2, OrangeRetangule, Retangule } from "../../style";
+import { FiArrowRight } from "react-icons/fi";
 
-const BackColor = styled.div`
-    background-color: #FFCD40;
-    width: 100%;
-    height: 965px;
-`
-const Retangule = styled.div`
-    width: 1235px;
-    height:500px;
-    background-color: #E1E1E1;
-    border-radius: 20px;
-    & h1{
-        text-align: center;
-    }
-`
-const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    width:1200px;
-`
+
 
 const FormField = styled.div`
     display: flex;
@@ -45,101 +29,83 @@ const FormField3 = styled.div`
     justify-content: flex-start;
     flex-wrap: wrap;
 `
-const OrangeContainerRetangule = styled.div`
-    display: flex;
-    justify-content: center;
-    padding-top: 10px;
-    position: relative;
-`
-const OrangeRetangule = styled.div`
-    width: 400px;
-    height: 130px;
-    background-color: #cf9f1c;
-    border-radius: 40px;
-    margin-bottom: 50px;
-    transform: translateX(-50%);
-    text-align: center;
-    cursor: pointer;
-    & p{
-        color: white;
-        margin-top: 10px;
-        position: relative;
-    }
-`
-const ContainerRetangule = styled.div`
-    background-color: #FFCD40;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-top: 100px;
-`
-const GreenRetangule = styled.div`
-    width: 400px;
-    height: 130px;
-    background-color: #cf9f1c;
-    border-radius: 40px;
-    margin-bottom: 50px;
-    transform: translateX(-50%);
-    text-align: center;
-    cursor: pointer;
-    & p{
-        color: white;
-        margin-top: 10px;
-        position: relative;
-    }
-`
+
+
 const DadosPacote = () => {
     const { senderData } = useDataContext();
     const { receiverData } = useDataContext();
     const { packageData, setPackageData } = useDataContext();
 
-    const [loading, setLoading] = React.useState(true);
-
     const navigate = useNavigate();
 
-    const handleVoltarClick = () => {
+    const handleUsuarioClick = () => {
         navigate('/');
     }
-
-    function handleClick() {
-        setLoading(true);
+    const handleDestinoClick = () => {
+        navigate('/destino');
     }
+
+    const handleInformationChange = event => {
+        const { name, value } = event.target;
+        setPackageData(prevData => ({
+            ...prevData,
+            information: {
+                ...prevData.information,
+                [name]: value
+            }
+        }));
+    };
     return (
         <BackColor>
-            <OrangeContainerRetangule>
-                <OrangeRetangule onClick={handleVoltarClick}>
+            <OrangeContainerRetangule2>
+                <OrangeRetangule onClick={handleUsuarioClick}>
                     <h3>Dados Origem</h3>
                     <p>{senderData.fullname} - {senderData.cpf}</p>
                     <p>{senderData.address.cep} - {senderData.address.state} - {senderData.address.uf} - {senderData.address.city}</p>
                     <p>{senderData.address.neighborhood} - {senderData.address.street} - {senderData.address.number} - {senderData.address.complement}</p>
                 </OrangeRetangule>
-            </OrangeContainerRetangule>
+                <IconContainer>
+                    <FiArrowRight color="white" fontSize="1.5em" />
+                </IconContainer>
+                <GreenRetangule onClick={handleDestinoClick}>
+                    <h3>Dados Origem</h3>
+                    <p>{receiverData.fullname} - {receiverData.cpf}</p>
+                    <p>{receiverData.address.cep} - {receiverData.address.state} - {receiverData.address.uf} - {receiverData.address.city}</p>
+                    <p>{receiverData.address.neighborhood} - {receiverData.address.street} - {receiverData.address.number} - {receiverData.address.complement}</p>
+                </GreenRetangule>
+            </OrangeContainerRetangule2>
             <ContainerRetangule>
                 <Retangule>
                     <h1>Dados do pacote de envio</h1>
-                    <Container>
+                    <ContainerPacote>
                         <FormField>
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Peso"
+                                value={packageData.weight}
+                                onChange={event => setPackageData(prevData => ({ ...prevData, weight: event.target.value }))}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Altura"
+                                value={packageData.height}
+                                onChange={event => setPackageData(prevData => ({ ...prevData, height: event.target.value }))}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Largura"
+                                value={packageData.width}
+                                onChange={event => setPackageData(prevData => ({ ...prevData, width: event.target.value }))}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Comprimento"
-
+                                value={packageData.length}
+                                onChange={event => setPackageData(prevData => ({ ...prevData, length: event.target.value }))}
                             />
                         </FormField>
                         <FormField2>
@@ -150,8 +116,8 @@ const DadosPacote = () => {
                                 label="Logistica Reversa"
                                 control={
                                     <Switch
-                                        checked={loading}
-                                        onChange={() => setLoading(!loading)}
+                                        checked={packageData.reverse}
+                                        onChange={() => setPackageData(prevData => ({ ...prevData, reverse: !prevData.reverse }))}
                                         name=""
                                         color="primary"
                                     />
@@ -164,9 +130,8 @@ const DadosPacote = () => {
                                 }}
                                 control={
                                     <Switch
-                                        checked={loading}
-                                        onChange={() => setLoading(!loading)}
-                                        name=""
+                                        checked={packageData.ar}
+                                        onChange={() => setPackageData(prevData => ({ ...prevData, ar: !prevData.ar }))}
                                         color="primary"
                                     />
                                 }
@@ -178,9 +143,8 @@ const DadosPacote = () => {
                                 }}
                                 control={
                                     <Switch
-                                        checked={loading}
-                                        onChange={() => setLoading(!loading)}
-                                        name=""
+                                        checked={packageData.own_hands}
+                                        onChange={() => setPackageData(prevData => ({ ...prevData, own_hands: !prevData.own_hands }))}
                                         color="primary"
                                     />
                                 }
@@ -192,11 +156,17 @@ const DadosPacote = () => {
                                 required
                                 id="outlined-required"
                                 label="Valor da mercadoria"
+                                name="amount"
+                                value={packageData.information.amount}
+                                onChange={handleInformationChange}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Quantidade de items"
+                                name="quantity"
+                                value={packageData.information.quantity}
+                                onChange={handleInformationChange}
                             />
                             <TextField
                                 id="outlined-multiline-static"
@@ -204,11 +174,19 @@ const DadosPacote = () => {
                                 multiline
                                 rows={10}
                                 fullWidth
+                                name="description"
+                                value={packageData.information.description}
+                                onChange={handleInformationChange}
                             />
                         </FormField3>
-                    </Container>
-                    <Button variant="contained">Avançar</Button>
-
+                    </ContainerPacote>
+                    <ContainerBtn>
+                        <Button variant="contained"
+                            sx={{
+                                width: 300
+                            }}
+                        >Avançar</Button>                    
+                    </ContainerBtn>
                 </Retangule>
             </ContainerRetangule>
         </BackColor>
