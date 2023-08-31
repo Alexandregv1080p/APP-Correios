@@ -8,6 +8,7 @@ import DadosDestino from './components/dados-destino/Dados-destino';
 import DadosPacote from './components/dados-pacote/Dados-pacote';
 import ValorFinal from './components/valor-final/Valor-final';
 import { DataProvider } from './components/provedor-dados/DataProvider';
+import CodigoRastreio from './components/Codigo-rastreio/CodigoRastreio';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,9 @@ const router = createBrowserRouter([
   {
     path: '/valorfinal',
     element: <ValorFinal />
+  },{
+    path:'/codigorastreio',
+    element: <CodigoRastreio/>
   }
 ]);
 

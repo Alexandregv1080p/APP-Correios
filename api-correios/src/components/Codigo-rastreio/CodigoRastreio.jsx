@@ -5,4 +5,4 @@ const CodigoRastreio = ()=>{
 
 }
 
-export 
+export default CodigoRastreio
