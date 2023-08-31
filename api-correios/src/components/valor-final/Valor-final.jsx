@@ -2,6 +2,7 @@ import React from "react";
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useLocation } from 'react-router-dom';
 
 const BackColor = styled.div`
     background-color: #FFCD40;
@@ -29,16 +30,14 @@ const StyledButton = styled(Button)`
     margin:0 auto;
 `;
 const ValorFinal = ()=>{
-    var correio = "Sedex" //Aqui sera o "carrier" do "shipment"
-    var valor = 433.0; //Aqui sera o "price" do "shipment"
+    const location = useLocation();
+    const { correio, valor } = location.state;
     return (
         <BackColor>
             <Retangule>
-                <h1>Valor final do frente</h1>
-                
-                <p>O melhor para seu destino é {correio} com o valor de {valor} com prazo de entrega </p>
+                <h1>Valor final do frete</h1>
+                <p>O melhor para o seu destino é {correio} com o valor de {valor} e prazo de entrega.</p>
                 <StyledButton variant="contained">Avançar</StyledButton>
-
             </Retangule>
         </BackColor>
     )

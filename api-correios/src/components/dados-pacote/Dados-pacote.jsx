@@ -8,6 +8,7 @@ import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
 import { BackColor, ContainerBtn, ContainerPacote, ContainerRetangule, GreenRetangule, IconContainer, OrangeContainerRetangule2, OrangeRetangule, Retangule } from "../../style";
 import { FiArrowRight } from "react-icons/fi";
+import axios from 'axios';
 
 
 
@@ -45,6 +46,22 @@ const DadosPacote = () => {
         navigate('/destino');
     }
 
+    const handleAvancarClick = async () => {
+        try {
+            const response = await axios.post('https://f29faec4-6487-4b60-882f-383b4054cc32.mock.pstmn.io/shipping_calculate', {
+                sender: senderData,
+                receiver: receiverData,
+                package: packageData
+            });
+    
+            const correio = response.data.carrier;
+            const valor = response.data.price;
+            navigate('/valorfinal', { state: { correio, valor } });
+        } catch (error) {
+            console.error('Erro ao calcular o frete:', error);
+        }
+    };
+    
     const handleInformationChange = event => {
         const { name, value } = event.target;
         setPackageData(prevData => ({
@@ -182,6 +199,7 @@ const DadosPacote = () => {
                     </ContainerPacote>
                     <ContainerBtn>
                         <Button variant="contained"
+                        onClick={handleAvancarClick}
                             sx={{
                                 width: 300
                             }}
