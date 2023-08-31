@@ -74,7 +74,21 @@ const ContainerRetangule = styled.div`
     position: relative;
     margin-top: 100px;
 `
-
+const GreenRetangule = styled.div`
+    width: 400px;
+    height: 130px;
+    background-color: #cf9f1c;
+    border-radius: 40px;
+    margin-bottom: 50px;
+    transform: translateX(-50%);
+    text-align: center;
+    cursor: pointer;
+    & p{
+        color: white;
+        margin-top: 10px;
+        position: relative;
+    }
+`
 const DadosPacote = () => {
     const { senderData } = useDataContext();
     const { receiverData } = useDataContext();
