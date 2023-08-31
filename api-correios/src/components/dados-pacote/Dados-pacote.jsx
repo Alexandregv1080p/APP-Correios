@@ -46,22 +46,43 @@ const DadosPacote = () => {
         navigate('/destino');
     }
 
-    const handleAvancarClick = async () => {
+    const calculateShipping = async () => {
         try {
             const response = await axios.post('https://f29faec4-6487-4b60-882f-383b4054cc32.mock.pstmn.io/shipping_calculate', {
                 sender: senderData,
                 receiver: receiverData,
                 package: packageData
+                
             });
+            console.log(response.data)
+            const { carrier, price, shipment } = response.data;
     
-            const correio = response.data.carrier;
-            const valor = response.data.price;
-            navigate('/valorfinal', { state: { correio, valor } });
+            if (shipment && shipment.length > 0) {
+                const bestOption = shipment.reduce((prev, current) => prev.price < current.price ? prev : current);
+                
+                const trackingResponse = await axios.post('https://f29faec4-6487-4b60-882f-383b4054cc32.mock.pstmn.io/posting', {
+                    calculated_id: bestOption._id
+                });
+    
+                const trackingCode = trackingResponse.data.code;
+    
+                navigate('/valorfinal', {
+                    state: {
+                        carrier: bestOption.carrier,
+                        price: bestOption.price,
+                        shipment: shipment,
+                        code: trackingCode
+                    }
+                });
+            } else {
+                console.error('No shipping options available.');
+            }
         } catch (error) {
             console.error('Erro ao calcular o frete:', error);
         }
     };
     
+
     const handleInformationChange = event => {
         const { name, value } = event.target;
         setPackageData(prevData => ({
@@ -199,11 +220,11 @@ const DadosPacote = () => {
                     </ContainerPacote>
                     <ContainerBtn>
                         <Button variant="contained"
-                        onClick={handleAvancarClick}
+                            onClick={calculateShipping}
                             sx={{
                                 width: 300
                             }}
-                        >Avançar</Button>                    
+                        >Avançar</Button>
                     </ContainerBtn>
                 </Retangule>
             </ContainerRetangule>
