@@ -115,3 +115,33 @@ export const OrangeContainerRetangule2 = styled.div`
     padding-top: 10px;
     margin-top:-150px;
 `
+//Valor Final
+export const RetanguleFinal = styled.div`
+    width: 1235px;
+    height:400px;
+    background-color: #E1E1E1;
+    border-radius: 20px;
+    & h1,h3,p{
+        text-align: center;
+        margin-top: 20px;
+    }
+`
+export const BlueRetangule = styled.div`
+    width: 400px;
+    height: 150px;
+    background-color: #1427d0;
+    border-radius: 40px;
+    margin-bottom: 50px;
+    transform: translateX(-50%);
+    cursor: pointer;
+    & h3{
+        text-align: center;
+    }
+    & p{
+        color: white;
+        margin-top: 10px;
+        position: relative;
+        margin-left: 15px;
+        font-size: 13px;
+    }
+`

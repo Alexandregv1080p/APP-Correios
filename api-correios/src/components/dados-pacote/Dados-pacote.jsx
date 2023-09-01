@@ -71,7 +71,10 @@ const DadosPacote = () => {
                         carrier: bestOption.carrier,
                         price: bestOption.price,
                         shipment: shipment,
-                        code: trackingCode
+                        code: trackingCode,
+                        reverse: packageData.reverse,
+                        ar: packageData.ar,
+                        own_hands: packageData.own_hands
                     }
                 });
             } else {
@@ -169,7 +172,10 @@ const DadosPacote = () => {
                                 control={
                                     <Switch
                                         checked={packageData.ar}
-                                        onChange={() => setPackageData(prevData => ({ ...prevData, ar: !prevData.ar }))}
+                                        
+                                        onChange={() => {
+                                            setPackageData(prevData => ({ ...prevData, ar: !prevData.ar }))}
+                                        }
                                         color="primary"
                                     />
                                 }
