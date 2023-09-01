@@ -48,7 +48,7 @@ const DadosPacote = () => {
 
     const calculateShipping = async () => {
         try {
-            const response = await axios.post('https://f29faec4-6487-4b60-882f-383b4054cc32.mock.pstmn.io/shipping_calculate', {
+            const response = await axios.post('http://localhost:3001/api/shipping_calculate', {
                 sender: senderData,
                 receiver: receiverData,
                 package: packageData
