@@ -52,6 +52,55 @@ export const DataProvider = ({ children }) => {
     }
   });
 
+  const clearAllData = () => {
+    setSenderData({
+      fullname: '',
+      cpf: '',
+      phone: '',
+      email: '',
+      address: {
+        cep: '',
+        state: '',
+        uf: '',
+        city: '',
+        neighborhood: '',
+        street: '',
+        number: '',
+        complement: ''
+      }
+    });
+    setReceiverData({
+      fullname: '',
+      cpf: '',
+      phone: '',
+      email: '',
+      address: {
+        cep: '',
+        state: '',
+        uf: '',
+        city: '',
+        neighborhood: '',
+        street: '',
+        number: '',
+        complement: ''
+      }
+    });
+    setPackageData({
+      weight: '',
+      height: '',
+      width: '',
+      length: '',
+      reverse: false,
+      ar: false,
+      own_hands: false,
+      information: {
+        amount: '',
+        quantity: '',
+        description: ''
+      }
+    });
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -60,7 +109,8 @@ export const DataProvider = ({ children }) => {
         receiverData,
         setReceiverData,
         packageData,
-        setPackageData
+        setPackageData,
+        clearAllData
       }}
     >
       {children}

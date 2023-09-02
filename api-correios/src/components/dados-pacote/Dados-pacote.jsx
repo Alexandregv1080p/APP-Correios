@@ -31,7 +31,15 @@ const FormField3 = styled.div`
     flex-wrap: wrap;
 `
 
+const ResponsiveFlexColumn = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
 
+const ResponsiveFlexRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
 const DadosPacote = () => {
     const { senderData } = useDataContext();
     const { receiverData } = useDataContext();
@@ -88,13 +96,15 @@ const DadosPacote = () => {
 
     const handleInformationChange = event => {
         const { name, value } = event.target;
-        setPackageData(prevData => ({
-            ...prevData,
-            information: {
-                ...prevData.information,
-                [name]: value
-            }
-        }));
+        if (!isNaN(value)) {
+            setPackageData(prevData => ({
+                ...prevData,
+                information: {
+                    ...prevData.information,
+                    [name]: value,
+                },
+            }));
+        };
     };
     return (
         <BackColor>
@@ -125,28 +135,48 @@ const DadosPacote = () => {
                                 id="outlined-required"
                                 label="Peso"
                                 value={packageData.weight}
-                                onChange={event => setPackageData(prevData => ({ ...prevData, weight: event.target.value }))}
+                                onChange={event => {
+                                    const newValue = event.target.value;
+                                    if (!isNaN(newValue)) {
+                                        setPackageData(prevData => ({ ...prevData, weight: newValue }));
+                                    }
+                                }}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Altura"
                                 value={packageData.height}
-                                onChange={event => setPackageData(prevData => ({ ...prevData, height: event.target.value }))}
+                                onChange={event => {
+                                    const newValue = event.target.value;
+                                    if (!isNaN(newValue)) {
+                                        setPackageData(prevData => ({ ...prevData, height: newValue }));
+                                    }
+                                }}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Largura"
                                 value={packageData.width}
-                                onChange={event => setPackageData(prevData => ({ ...prevData, width: event.target.value }))}
+                                onChange={event => {
+                                    const newValue = event.target.value;
+                                    if (!isNaN(newValue)) {
+                                        setPackageData(prevData => ({ ...prevData, width: newValue }));
+                                    }
+                                }}
                             />
                             <TextField
                                 required
                                 id="outlined-required"
                                 label="Comprimento"
                                 value={packageData.length}
-                                onChange={event => setPackageData(prevData => ({ ...prevData, length: event.target.value }))}
+                                onChange={event => {
+                                    const newValue = event.target.value;
+                                    if (!isNaN(newValue)) {
+                                        setPackageData(prevData => ({ ...prevData, length: newValue }));
+                                    }
+                                }}
                             />
                         </FormField>
                         <FormField2>
@@ -206,6 +236,9 @@ const DadosPacote = () => {
                             />
                             <TextField
                                 required
+                                sx={{
+                                    marginLeft:4
+                                }}
                                 id="outlined-required"
                                 label="Quantidade de items"
                                 name="quantity"

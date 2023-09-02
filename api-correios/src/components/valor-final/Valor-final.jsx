@@ -19,7 +19,6 @@ const Retangule = styled.div`
 `;
 
 const ValorFinal = () => {
-    const history = useHistory();
 
     const { senderData } = useDataContext();
 
@@ -42,7 +41,7 @@ const ValorFinal = () => {
     }
 
     const handleAvancarClick = () => {
-        history.push(`/codigorastreio/${code}`);
+        navigate(`/codigorastreio/${code}`);
     }
 
     const { carrier, price, shipment, code } = location.state;
@@ -64,7 +63,7 @@ const ValorFinal = () => {
     const { discount } = bestOption;
     return (
         <BackColor>
-            <OrangeContainerRetangule3>
+            <OrangeContainerRetangule2>
                 <OrangeRetangule onClick={handleUsuarioClick}>
                     <h3>Dados Origem</h3>
                     <p>{senderData.fullname} - {senderData.cpf}</p>
@@ -90,12 +89,11 @@ const ValorFinal = () => {
                     <p><strong>Mãos próprias:</strong>{own_hands ? "Sim" : "Não"}</p>
                     <p><strong>Aviso de recebimento:</strong>{ar ? "Sim" : "Não"}</p>
                 </BlueRetangule>
-            </OrangeContainerRetangule3>
+            </OrangeContainerRetangule2>
             <ContainerRetangule>
             <RetanguleFinal>
                 <h1>Valor final do frete</h1>
                 <p>O melhor para o seu destino é {carrier} com o valor de R${price} e prazo de entrega de 5 dias úteis.</p>
-                {code && <p>Código de rastreio: {code}</p>}
                 <h3>Sua melhor economia foi de R${discount}</h3>
                 <ContainerBtn>
                     <Button onClick={handleAvancarClick} variant="contained"

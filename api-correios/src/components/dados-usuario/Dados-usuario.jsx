@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 import { BackColor, Retangule, Retangule2, FormField, ContainerBtn } from "../../style";
-import validateCPF from "./ValidateCPF";
+import validateCPF from "../ValidaCPF/ValidateCPF";
 
 const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();

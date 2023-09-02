@@ -7,7 +7,7 @@ import { useDataContext } from "../provedor-dados/DataProvider";
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 import { BackColor2, ContainerBtn, ContainerRetangule, FormField, OrangeContainerRetangule, OrangeRetangule, Retangule } from "../../style";
-import validateCPF from "../dados-usuario/ValidateCPF";
+import validateCPF from "../ValidaCPF/ValidateCPF";
 
 //aqui é o Receiver
 const DadosDestino = () => {
@@ -125,7 +125,7 @@ const DadosDestino = () => {
                         />
                         <InputMask
                             mask="999.999.999-99"
-                            value={senderData.cpf}
+                            value={receiverData.cpf}
                             onChange={handleCpfChange}
                         >
                             {() => <TextField
