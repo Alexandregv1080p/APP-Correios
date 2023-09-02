@@ -103,7 +103,16 @@ export const IconContainer = styled.div`
     font-size: 40px;
     text-align: center;
 `
-
+export const IconContainer2 = styled.div`
+    width: 234px;
+    margin-left: -115px;
+    margin-top: 30px;
+    border-radius: 40px;
+    transform: translateX(-50%);
+    font-size: 40px;
+    text-align: center;
+    margin-right: 50px;
+`
 export const ContainerPacote = styled.div`
     display: flex;
     justify-content: center;
@@ -113,8 +122,9 @@ export const OrangeContainerRetangule2 = styled.div`
     display: flex;
     justify-content: center;
     padding-top: 10px;
-    margin-top:-150px;
-`
+    margin-top: -150px;
+    width: 100%;
+`;
 //Valor Final
 export const RetanguleFinal = styled.div`
     width: 1235px;
@@ -126,6 +136,13 @@ export const RetanguleFinal = styled.div`
         margin-top: 20px;
     }
 `
+export const OrangeContainerRetangule3 = styled.div`
+    display: flex;
+    justify-content: end;
+    padding-top: 10px;
+    margin-top: -150px;
+    width: 100%;
+`;
 export const BlueRetangule = styled.div`
     width: 400px;
     height: 150px;

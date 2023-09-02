@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -6,17 +6,49 @@ import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
-import { BackColor, Retangule, Retangule2, FormField,ContainerBtn} from "../../style";
+import { BackColor, Retangule, Retangule2, FormField, ContainerBtn } from "../../style";
+import validateCPF from "../ValidaCPF/ValidateCPF";
 
 const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();
 
+    const [isValid, setIsValid] = useState(false);
+
+    useEffect(() => {
+        const isFormValid =
+            senderData.fullname !== "" &&
+            senderData.cpf !== "" &&
+            senderData.phone !== "" &&
+            senderData.email !== "" &&
+            senderData.address.cep !== "" &&
+            senderData.address.state !== "" &&
+            senderData.address.uf !== "" &&
+            senderData.address.city !== "" &&
+            senderData.address.neighborhood !== "" &&
+            senderData.address.street !== "" &&
+            senderData.address.number !== "";
+
+        setIsValid(isFormValid);
+    }, [senderData]);
+
     const navigate = useNavigate();
+
+    const [isCpfValid, setIsCpfValid] = useState(true);
+
+    const cpfHint = "CPF inválido. Digite um CPF válido.";
 
     const handleCpfChange = event => {
         const rawCpf = event.target.value.replace(/\D/g, ''); 
-        const formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4"); 
-        setSenderData(prevData => ({ ...prevData, cpf: formattedCpf }));
+        let formattedCpf = event.target.value;
+
+        if (validateCPF(rawCpf)) {
+            formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            setIsCpfValid(true); 
+        } else {
+            setIsCpfValid(false);
+        }
+
+        setSenderData(prevData => ({ ...prevData, cpf: formattedCpf }));        
     };
 
     const handleAddressChange = event => {
@@ -68,10 +100,12 @@ const DadosUsuario = () => {
     };
 
     const handleAvancarClick = () => {
-        navigate('/destino');
-        console.log(senderData)
+        if (isValid) {
+            navigate('/destino');
+        } else {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+        }
     };
-
     return (
         <BackColor>
             <Retangule2>
@@ -91,26 +125,32 @@ const DadosUsuario = () => {
                         value={senderData.fullname}
                         onChange={event => setSenderData(prevData => ({ ...prevData, fullname: event.target.value }))}
                     />
-                    <InputMask
+                     <InputMask
                         mask="999.999.999-99"
                         value={senderData.cpf}
                         onChange={handleCpfChange}
                     >
-                        {() => <TextField required id="outlined-required" label="CPF" />}
+                        {() => <TextField
+                            required
+                            id="outlined-required"
+                            label="CPF"
+                            error={!isCpfValid} 
+                            helperText={!isCpfValid ? cpfHint : ''}
+                        />}
                     </InputMask>
                     <InputMask
-                            mask="(99) 99999-9999"
-                            value={senderData.phone}
-                            onChange={handlePhoneChange}
-                        >
-                            {() => (
-                                <TextField
-                                    required
-                                    id="outlined-required"
-                                    label="Telefone"
-                                />
-                            )}
-                        </InputMask>
+                        mask="(99) 99999-9999"
+                        value={senderData.phone}
+                        onChange={handlePhoneChange}
+                    >
+                        {() => (
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="Telefone"
+                            />
+                        )}
+                    </InputMask>
                     <TextField
                         required
                         id="outlined-required"
@@ -120,19 +160,19 @@ const DadosUsuario = () => {
 
                     />
                     <InputMask
-                            mask="99999-999"
-                            value={senderData.address.cep}
-                            onChange={handleCepChange}
-                        >
-                            {() => (
-                                <TextField
-                                    required
-                                    id="outlined-required"
-                                    label="CEP"
-                                    name="cep"
-                                />
-                            )}
-                        </InputMask>
+                        mask="99999-999"
+                        value={senderData.address.cep}
+                        onChange={handleCepChange}
+                    >
+                        {() => (
+                            <TextField
+                                required
+                                id="outlined-required"
+                                label="CEP"
+                                name="cep"
+                            />
+                        )}
+                    </InputMask>
                 </FormField>
                 <FormField>
                     <TextField
@@ -177,7 +217,7 @@ const DadosUsuario = () => {
                     />
                     <TextField
                         sx={{
-                            marginTop:2
+                            marginTop: 2
                         }}
                         required
                         id="outlined-required"
@@ -185,16 +225,16 @@ const DadosUsuario = () => {
                         name="number"
                         value={senderData.address.number}
                         onChange={event => {
-                            const numericValue = event.target.value.replace(/\D/g, ''); 
-                            handleAddressChange({ target: { name: 'number', value: numericValue } }); 
+                            const numericValue = event.target.value.replace(/\D/g, '');
+                            handleAddressChange({ target: { name: 'number', value: numericValue } });
                         }}
                         inputProps={{
-                            inputMode: "numeric", 
+                            inputMode: "numeric",
                         }}
                     />
                     <TextField
                         sx={{
-                            marginTop:2
+                            marginTop: 2
                         }}
                         id="outlined-required"
                         label="Complemento"
@@ -212,7 +252,7 @@ const DadosUsuario = () => {
                 </ContainerBtn>
 
             </Retangule>
-            
+
         </BackColor>
     )
 }
