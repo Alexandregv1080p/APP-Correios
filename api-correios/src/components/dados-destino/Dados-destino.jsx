@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -7,6 +7,7 @@ import { useDataContext } from "../provedor-dados/DataProvider";
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 import { BackColor2, ContainerBtn, ContainerRetangule, FormField, OrangeContainerRetangule, OrangeRetangule, Retangule } from "../../style";
+import validateCPF from "../dados-usuario/ValidateCPF";
 
 //aqui é o Receiver
 const DadosDestino = () => {
@@ -27,10 +28,22 @@ const DadosDestino = () => {
 
     const navigate = useNavigate();
 
+    const [isCpfValid, setIsCpfValid] = useState(true);
+
+    const cpfHint = "CPF inválido. Digite um CPF válido.";
+
     const handleCpfChange = event => {
-        const rawCpf = event.target.value.replace(/\D/g, '');
-        const formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-        setReceiverData(prevData => ({ ...prevData, cpf: formattedCpf }));
+        const rawCpf = event.target.value.replace(/\D/g, ''); 
+        let formattedCpf = event.target.value;
+
+        if (validateCPF(rawCpf)) {
+            formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+            setIsCpfValid(true); 
+        } else {
+            setIsCpfValid(false);
+        }
+
+        setReceiverData(prevData => ({ ...prevData, cpf: formattedCpf }));        
     };
 
     const handlePhoneChange = event => {

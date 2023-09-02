@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
 import { BackColor, Retangule, Retangule2, FormField, ContainerBtn } from "../../style";
-import validateCPF from "../ValidaCPF/ValidateCPF";
+import validateCPF from "./ValidateCPF";
 
 const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();
@@ -33,6 +33,8 @@ const DadosUsuario = () => {
 
     const navigate = useNavigate();
 
+    //Funções que irá lidar com a validação do CPF
+
     const [isCpfValid, setIsCpfValid] = useState(true);
 
     const cpfHint = "CPF inválido. Digite um CPF válido.";
@@ -51,6 +53,7 @@ const DadosUsuario = () => {
         setSenderData(prevData => ({ ...prevData, cpf: formattedCpf }));        
     };
 
+    //Funções que irão realizar a validação do CEP changing
     const handleAddressChange = event => {
         const { name, value } = event.target;
         setSenderData(prevData => ({
@@ -100,11 +103,12 @@ const DadosUsuario = () => {
     };
 
     const handleAvancarClick = () => {
-        if (isValid) {
-            navigate('/destino');
+        navigate('/destino');
+        /*if (isValid) {
+            
         } else {
             alert("Por favor, preencha todos os campos obrigatórios.");
-        }
+        }*/
     };
     return (
         <BackColor>
