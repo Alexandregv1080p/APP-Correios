@@ -40,17 +40,17 @@ const DadosUsuario = () => {
     const cpfHint = "CPF inválido. Digite um CPF válido.";
 
     const handleCpfChange = event => {
-        const rawCpf = event.target.value.replace(/\D/g, ''); 
+        const rawCpf = event.target.value.replace(/\D/g, '');
         let formattedCpf = event.target.value;
 
         if (validateCPF(rawCpf)) {
             formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-            setIsCpfValid(true); 
+            setIsCpfValid(true);
         } else {
             setIsCpfValid(false);
         }
 
-        setSenderData(prevData => ({ ...prevData, cpf: formattedCpf }));        
+        setSenderData(prevData => ({ ...prevData, cpf: formattedCpf }));
     };
 
     //Funções que irão realizar a validação do CEP changing
@@ -127,9 +127,17 @@ const DadosUsuario = () => {
                         id="outlined-required"
                         label="Nome completo"
                         value={senderData.fullname}
-                        onChange={event => setSenderData(prevData => ({ ...prevData, fullname: event.target.value }))}
+                        onChange={(event) => {
+                            const inputValue = event.target.value;
+                            const regex = /^[A-Za-z\s]*$/; 
+
+                            if (regex.test(inputValue)) {
+                                setSenderData((prevData) => ({ ...prevData, fullname: inputValue }));
+                            }
+                        }}
                     />
-                     <InputMask
+
+                    <InputMask
                         mask="999.999.999-99"
                         value={senderData.cpf}
                         onChange={handleCpfChange}
@@ -138,7 +146,7 @@ const DadosUsuario = () => {
                             required
                             id="outlined-required"
                             label="CPF"
-                            error={!isCpfValid} 
+                            error={!isCpfValid}
                             helperText={!isCpfValid ? cpfHint : ''}
                         />}
                     </InputMask>

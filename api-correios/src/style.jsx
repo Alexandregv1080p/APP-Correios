@@ -162,3 +162,29 @@ export const BlueRetangule = styled.div`
         font-size: 13px;
     }
 `
+//Codigo Rastreio
+export const RetanguleCodigo = styled.div`
+    width: 1235px;
+    height:500px;
+    background-color: #E1E1E1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 20px;
+    & h1,h2,h3{
+        text-align: center;
+        margin-top: 20px;
+    }
+`
+export const ContainerRetanguleCodigo = styled.div`
+    background-color: #ffffff;
+    width: 100%;
+    height: 850px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    margin-top: 100px;
+`

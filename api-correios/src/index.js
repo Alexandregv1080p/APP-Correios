@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     path: '/valorfinal',
     element: <ValorFinal />
   },{
-    path:'/codigorastreio',
+    path:'/codigorastreio/:code',
     element: <CodigoRastreio/>
   }
 ]);

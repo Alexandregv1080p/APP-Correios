@@ -1,11 +1,11 @@
 import React from "react";
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
-import { useLocation } from 'react-router-dom';
 import { BackColor, BlueRetangule, ContainerBtn, ContainerRetangule, GreenRetangule, IconContainer, IconContainer2, OrangeContainerRetangule2, OrangeContainerRetangule3, OrangeRetangule, RetanguleFinal } from "../../style";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 import { FiArrowRight } from "react-icons/fi";
 import { useDataContext } from "../provedor-dados/DataProvider";
+import { useHistory } from 'react-router';
 
 
 const Retangule = styled.div`
@@ -19,6 +19,8 @@ const Retangule = styled.div`
 `;
 
 const ValorFinal = () => {
+    const history = useHistory();
+
     const { senderData } = useDataContext();
 
     const { receiverData } = useDataContext();
@@ -40,7 +42,7 @@ const ValorFinal = () => {
     }
 
     const handleAvancarClick = () => {
-        navigate('/codigorastreio');
+        history.push(`/codigorastreio/${code}`);
     }
 
     const { carrier, price, shipment, code } = location.state;

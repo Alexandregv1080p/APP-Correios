@@ -33,17 +33,17 @@ const DadosDestino = () => {
     const cpfHint = "CPF inválido. Digite um CPF válido.";
 
     const handleCpfChange = event => {
-        const rawCpf = event.target.value.replace(/\D/g, ''); 
+        const rawCpf = event.target.value.replace(/\D/g, '');
         let formattedCpf = event.target.value;
 
         if (validateCPF(rawCpf)) {
             formattedCpf = rawCpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-            setIsCpfValid(true); 
+            setIsCpfValid(true);
         } else {
             setIsCpfValid(false);
         }
 
-        setReceiverData(prevData => ({ ...prevData, cpf: formattedCpf }));        
+        setReceiverData(prevData => ({ ...prevData, cpf: formattedCpf }));
     };
 
     const handlePhoneChange = event => {
@@ -114,14 +114,27 @@ const DadosDestino = () => {
                             id="outlined-required"
                             label="Nome completo"
                             value={receiverData.fullname}
-                            onChange={event => setReceiverData(prevData => ({ ...prevData, fullname: event.target.value }))}
+                            onChange={(event) => {
+                                const inputValue = event.target.value;
+                                const regex = /^[A-Za-z\s]*$/;
+
+                                if (regex.test(inputValue)) {
+                                    setReceiverData((prevData) => ({ ...prevData, fullname: inputValue }));
+                                }
+                            }}
                         />
                         <InputMask
                             mask="999.999.999-99"
-                            value={receiverData.cpf}
+                            value={senderData.cpf}
                             onChange={handleCpfChange}
                         >
-                            {() => <TextField required id="outlined-required" label="CPF" />}
+                            {() => <TextField
+                                required
+                                id="outlined-required"
+                                label="CPF"
+                                error={!isCpfValid}
+                                helperText={!isCpfValid ? cpfHint : ''}
+                            />}
                         </InputMask>
                         <InputMask
                             mask="(99) 99999-9999"
@@ -165,7 +178,17 @@ const DadosDestino = () => {
                             label="Estado"
                             name="state"
                             value={receiverData.address.state}
-                            onChange={handleAddressChange}
+                            onChange={(event) => {
+                                const inputValue = event.target.value;
+                                const regex = /^[A-Za-z\s]*$/;
+
+                                if (regex.test(inputValue)) {
+                                    setReceiverData((prevData) => ({
+                                        ...prevData,
+                                        address: { ...prevData.address, state: inputValue },
+                                    }));
+                                }
+                            }}
                         />
                         <TextField
                             required
@@ -192,14 +215,18 @@ const DadosDestino = () => {
                             onChange={handleAddressChange}
                         />
                         <TextField
+
                             required
                             id="outlined-required"
                             label="Número"
                             name="number"
                             value={receiverData.address.number}
-                            onChange={handleAddressChange}
+                            onChange={event => {
+                                const numericValue = event.target.value.replace(/\D/g, '');
+                                handleAddressChange({ target: { name: 'number', value: numericValue } });
+                            }}
                             inputProps={{
-                                inputMode: "numeric", 
+                                inputMode: "numeric",
                             }}
                         />
                         <TextField
@@ -219,7 +246,7 @@ const DadosDestino = () => {
                             sx={{
                                 width: 300
                             }}
-                        >Avançar</Button>                    
+                        >Avançar</Button>
                     </ContainerBtn>
                 </Retangule>
 
