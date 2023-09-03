@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect,useState}from "react";
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { BackColor, ContainerBtn, ContainerPacote, ContainerRetangule, FormField2, FormField3, FormFieldPacote1, GreenRetangule, IconContainer, OrangeContainerRetangule2, OrangeRetangule, Retangule } from "../../style";
 import { FiArrowRight } from "react-icons/fi";
 import axios from 'axios';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 
 const ResponsiveFlexColumn = styled.div`
     display: flex;
@@ -23,7 +24,24 @@ const DadosPacote = () => {
     const { senderData } = useDataContext();
     const { receiverData } = useDataContext();
     const { packageData, setPackageData } = useDataContext();
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [isValid, setIsValid] = useState(false);
 
+    useEffect(() => {
+        const isFormValid = 
+            packageData.weight !== "" &&
+            packageData.height !== "" &&
+            packageData.width !== "" &&
+            packageData.length !== "" &&  
+            packageData.reverse !== "" &&
+            packageData.ar !== "" &&
+            packageData.own_hands !== "" &&
+            packageData.information.amount !== "" &&
+            packageData.information.quantity !== "" &&
+            packageData.information.description !== "";
+
+        setIsValid(isFormValid);
+    }, [packageData]);
     const navigate = useNavigate();
 
     const handleUsuarioClick = () => {
@@ -31,9 +49,10 @@ const DadosPacote = () => {
     }
     const handleDestinoClick = () => {
         navigate('/destino');
-    }   
+    }       
 
     const calculateShipping = async () => {
+        if(isValid){
         try {
             const response = await axios.post('http://localhost:3001/api/shipping_calculate', {
                 sender: senderData,
@@ -49,29 +68,35 @@ const DadosPacote = () => {
                 
                 const trackingResponse = await axios.post('https://f29faec4-6487-4b60-882f-383b4054cc32.mock.pstmn.io/posting', {
                     calculated_id: bestOption._id
-                });
+                });         
     
                 const trackingCode = trackingResponse.data.code;
-    
-                navigate('/valorfinal', {
-                    state: {
-                        carrier: bestOption.carrier,
-                        price: bestOption.price,
-                        shipment: shipment,
-                        code: trackingCode,
-                        reverse: packageData.reverse,
-                        ar: packageData.ar,
-                        own_hands: packageData.own_hands
-                    }
-                });
+                
+                    navigate('/valorfinal', {
+                        state: {
+                            carrier: bestOption.carrier,
+                            price: bestOption.price,
+                            shipment: shipment,
+                            code: trackingCode,
+                            reverse: packageData.reverse,
+                            ar: packageData.ar,
+                            own_hands: packageData.own_hands
+                        }
+                    });
+                
             } else {
                 console.error('No shipping options available.');
             }
         } catch (error) {
             console.error('Erro ao calcular o frete:', error);
-        }
-    };
-    
+        }   
+    }else{
+        setSnackbarOpen(true); 
+    }
+};
+const handleCloseSnackbar = () => {
+    setSnackbarOpen(false); 
+  };
 
     const handleInformationChange = event => {
         const { name, value } = event.target;
@@ -84,6 +109,16 @@ const DadosPacote = () => {
                 },
             }));
         };
+    };
+    const handleInformationDescChange = event => {
+        const { name, value } = event.target;
+            setPackageData(prevData => ({
+                ...prevData,
+                information: {
+                    ...prevData.information,
+                    [name]: value,
+                },
+            }));
     };
     return (
         <BackColor>
@@ -98,7 +133,7 @@ const DadosPacote = () => {
                     <FiArrowRight color="white" fontSize="1.5em" />
                 </IconContainer>
                 <GreenRetangule onClick={handleDestinoClick}>
-                    <h3>Dados Origem</h3>
+                    <h3>Dados Destino</h3>
                     <p>{receiverData.fullname} - {receiverData.cpf}</p>
                     <p>{receiverData.address.cep} - {receiverData.address.state} - {receiverData.address.uf} - {receiverData.address.city}</p>
                     <p>{receiverData.address.neighborhood} - {receiverData.address.street} - {receiverData.address.number} - {receiverData.address.complement}</p>
@@ -223,7 +258,7 @@ const DadosPacote = () => {
                                 fullWidth
                                 name="description"
                                 value={packageData.information.description}
-                                onChange={handleInformationChange}
+                                onChange={handleInformationDescChange}
                             />
                         </FormField3>
                     </ContainerPacote>
@@ -237,6 +272,13 @@ const DadosPacote = () => {
                     </ContainerBtn>
                 </Retangule>
             </ContainerRetangule>
+            <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={snackbarOpen}
+        autoHideDuration={6000} 
+        onClose={handleCloseSnackbar}
+        message="Por favor, preencha todos os campos obrigatórios."
+      />    
         </BackColor>
     )
 }

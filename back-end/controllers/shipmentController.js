@@ -26,4 +26,4 @@ exports.calculateShipping = async (req, res) => {
       res.status(500).json({ error: 'Erro no servidor' });
     }
   };
-  
+    

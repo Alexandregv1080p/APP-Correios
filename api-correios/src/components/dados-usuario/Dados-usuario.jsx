@@ -8,18 +8,20 @@ import InputMask from 'react-input-mask';
 import axios from 'axios';
 import { BackColor, Retangule, Retangule2, FormField, ContainerBtn, FormFieldUsuario} from "../../style";
 import validateCPF from "../ValidaCPF/ValidateCPF";
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 
 const DadosUsuario = () => {
     const { senderData, setSenderData } = useDataContext();
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
     const [isValid, setIsValid] = useState(false);
 
     useEffect(() => {
-        const isFormValid =
+        const isFormValid = 
             senderData.fullname !== "" &&
             senderData.cpf !== "" &&
             senderData.phone !== "" &&
-            senderData.email !== "" &&
+            senderData.email !== "" &&  
             senderData.address.cep !== "" &&
             senderData.address.state !== "" &&
             senderData.address.uf !== "" &&
@@ -101,13 +103,15 @@ const DadosUsuario = () => {
         const formattedPhone = rawPhone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
         setSenderData(prevData => ({ ...prevData, phone: formattedPhone }));
     };
-
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false); 
+      };
     const handleAvancarClick = () => {
         
         if (isValid) {
             navigate('/destino');
         } else {
-            alert("Por favor, preencha todos os campos obrigatórios.");
+            setSnackbarOpen(true); 
         }
     };
     return (
@@ -264,7 +268,13 @@ const DadosUsuario = () => {
                 </ContainerBtn>
 
             </Retangule>
-
+            <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={snackbarOpen}
+        autoHideDuration={6000} // Define a duração que a Snackbar ficará visível (em milissegundos)
+        onClose={handleCloseSnackbar}
+        message="Por favor, preencha todos os campos obrigatórios."
+      />               
         </BackColor>
     )
 }

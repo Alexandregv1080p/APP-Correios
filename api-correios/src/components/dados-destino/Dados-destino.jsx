@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,12 +8,33 @@ import InputMask from 'react-input-mask';
 import axios from 'axios';
 import { BackColor2, ContainerBtn, ContainerRetangule, FormFieldDestino, OrangeContainerRetangule, OrangeRetangule, Retangule } from "../../style";
 import validateCPF from "../ValidaCPF/ValidateCPF";
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 
 //aqui é o Receiver
 const DadosDestino = () => {
     const { senderData } = useDataContext();
-
     const { receiverData, setReceiverData } = useDataContext()
+
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+
+    const [isValid, setIsValid] = useState(false);
+
+    useEffect(() => {
+        const isFormValid = 
+            receiverData.fullname !== "" &&
+            receiverData.cpf !== "" &&
+            receiverData.phone !== "" &&
+            receiverData.email !== "" &&  
+            receiverData.address.cep !== "" &&
+            receiverData.address.state !== "" &&
+            receiverData.address.city !== "" &&
+            receiverData.address.neighborhood !== "" &&
+            receiverData.address.street !== "" &&
+            receiverData.address.number !== "";
+
+        setIsValid(isFormValid);
+    }, [receiverData]);
+
 
     const handleAddressChange = event => {
         const { name, value } = event.target;
@@ -45,7 +66,9 @@ const DadosDestino = () => {
 
         setReceiverData(prevData => ({ ...prevData, cpf: formattedCpf }));
     };
-
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false); 
+      };
     const handlePhoneChange = event => {
         const rawPhone = event.target.value.replace(/\D/g, '');
         const formattedPhone = rawPhone.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
@@ -92,8 +115,12 @@ const DadosDestino = () => {
     }
 
     const handleAvancarClick = () => {
-        navigate('/pacotes');
-    }
+        if (isValid) {
+          navigate('/pacotes');
+        } else {
+          setSnackbarOpen(true); 
+        }
+      };
     return (
         <BackColor2>
             <OrangeContainerRetangule>
@@ -251,6 +278,13 @@ const DadosDestino = () => {
                 </Retangule>
 
             </ContainerRetangule>
+            <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={snackbarOpen}
+        autoHideDuration={6000} // Define a duração que a Snackbar ficará visível (em milissegundos)
+        onClose={handleCloseSnackbar}
+        message="Por favor, preencha todos os campos obrigatórios."
+      />
         </BackColor2>
     )
 }
