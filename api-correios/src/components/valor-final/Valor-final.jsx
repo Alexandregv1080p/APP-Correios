@@ -5,7 +5,6 @@ import { BackColor, BlueRetangule, ContainerBtn, ContainerRetangule, GreenRetang
 import { useNavigate ,useLocation} from 'react-router-dom';
 import { FiArrowRight } from "react-icons/fi";
 import { useDataContext } from "../provedor-dados/DataProvider";
-import { useHistory } from 'react-router';
 
 
 const Retangule = styled.div`
