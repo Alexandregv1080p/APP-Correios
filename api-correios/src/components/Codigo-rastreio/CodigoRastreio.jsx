@@ -13,8 +13,12 @@ const CodigoRastreio = ()=>{
     const navigate = useNavigate();
 
     const handleAvancarClick = () => {
-        navigate("/")
-        clearAllData();
+    
+        setTimeout(() => {
+            window.location.reload();
+        }, 100); 
+        
+        navigate("/");
     }
 
     return(

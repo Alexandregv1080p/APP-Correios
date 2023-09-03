@@ -20,8 +20,10 @@ export const Retangule = styled.div`
     padding: 20px;
     text-align: center;
     margin-top: 20px;
+    @media(max-width:561px){
+        width: 80vw;
+    }
 `;
-
 export const Retangule2 = styled.div`
     width: 90vw;
     max-width: 835px;
@@ -32,6 +34,9 @@ export const Retangule2 = styled.div`
     text-align: center;
     margin-top: 10px;
     padding: 20px;
+    @media(max-width:561px){
+        width: 80vw;
+    }
 `;
 
 export const FormField = styled.div`
@@ -41,6 +46,18 @@ export const FormField = styled.div`
     justify-items: center;
     position: relative;
     margin: 2vw;
+`;
+export const FormFieldUsuario = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    justify-items: center;
+    position: relative;
+    margin: 2vw;
+    @media(max-width: 1221px){
+        justify-content: center;
+        flex-direction: column;
+    }
 `;
 
 export const ContainerBtn = styled.div`

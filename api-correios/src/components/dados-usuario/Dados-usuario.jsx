@@ -6,7 +6,7 @@ import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import axios from 'axios';
-import { BackColor, Retangule, Retangule2, FormField, ContainerBtn } from "../../style";
+import { BackColor, Retangule, Retangule2, FormField, ContainerBtn, FormFieldUsuario} from "../../style";
 import validateCPF from "../ValidaCPF/ValidateCPF";
 
 const DadosUsuario = () => {
@@ -121,7 +121,7 @@ const DadosUsuario = () => {
             </Retangule2>
             <Retangule>
                 <h1>Dados de origem</h1>
-                <FormField>
+                <FormFieldUsuario>
                     <TextField
                         required
                         id="outlined-required"
@@ -185,8 +185,8 @@ const DadosUsuario = () => {
                             />
                         )}
                     </InputMask>
-                </FormField>
-                <FormField>
+                </FormFieldUsuario>
+                <FormFieldUsuario>
                     <TextField
                         required
                         id="outlined-required"
@@ -254,7 +254,7 @@ const DadosUsuario = () => {
                         value={senderData.address.complement}
                         onChange={handleAddressChange}
                     />
-                </FormField>
+                </FormFieldUsuario>
                 <ContainerBtn>
                     <Button onClick={handleAvancarClick} variant="contained"
                         sx={{
