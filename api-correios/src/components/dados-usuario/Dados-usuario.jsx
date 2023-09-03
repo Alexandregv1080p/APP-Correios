@@ -103,12 +103,12 @@ const DadosUsuario = () => {
     };
 
     const handleAvancarClick = () => {
-        navigate('/destino');
-        /*if (isValid) {
-            
+        
+        if (isValid) {
+            navigate('/destino');
         } else {
             alert("Por favor, preencha todos os campos obrigatórios.");
-        }*/
+        }
     };
     return (
         <BackColor>

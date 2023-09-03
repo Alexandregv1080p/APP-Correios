@@ -31,7 +31,7 @@ const DadosPacote = () => {
     }
     const handleDestinoClick = () => {
         navigate('/destino');
-    }
+    }   
 
     const calculateShipping = async () => {
         try {

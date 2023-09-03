@@ -44,7 +44,7 @@ const ValorFinal = () => {
     }
 
     const { carrier, price, shipment, code } = location.state;
-    const { reverse, ar, own_hands } = location.state;
+    const { reverse, ar, own_hands } = location.state;  
 
     const bestOption = shipment.find(option => option.carrier === carrier);
 

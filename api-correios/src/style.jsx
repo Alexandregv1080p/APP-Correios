@@ -178,6 +178,9 @@ export const IconContainer2 = styled.div`
     transform: translateX(-50%);
     font-size: 3vw;
     text-align: center;
+    @media(max-width:1100px){
+        display:none;    
+    }
 `;
 
 export const ContainerPacote = styled.div`
@@ -245,6 +248,10 @@ export const BlueRetangule = styled.div`
         position: relative;
         margin-left: 1vw;
         font-size: 1vw;
+    }
+    @media(max-width:1100px){
+        
+        margin-left: 395px;
     }
 `;
 export const FormField3 = styled.div`
