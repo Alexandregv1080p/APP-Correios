@@ -6,30 +6,9 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useDataContext } from "../provedor-dados/DataProvider";
 import { useNavigate } from 'react-router-dom';
-import { BackColor, ContainerBtn, ContainerPacote, ContainerRetangule, GreenRetangule, IconContainer, OrangeContainerRetangule2, OrangeRetangule, Retangule } from "../../style";
+import { BackColor, ContainerBtn, ContainerPacote, ContainerRetangule, FormField2, FormField3, FormFieldPacote1, GreenRetangule, IconContainer, OrangeContainerRetangule2, OrangeRetangule, Retangule } from "../../style";
 import { FiArrowRight } from "react-icons/fi";
 import axios from 'axios';
-
-
-
-const FormField = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    width: 300px;
-    height: 300px;
-    margin: 50px;
-    justify-content: flex-start;
-`
-const FormField2 = styled.div`
-    margin-top:50px;
-    width: 300px;
-`
-const FormField3 = styled.div`
-    margin-top:50px;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-`
 
 const ResponsiveFlexColumn = styled.div`
     display: flex;
@@ -129,7 +108,7 @@ const DadosPacote = () => {
                 <Retangule>
                     <h1>Dados do pacote de envio</h1>
                     <ContainerPacote>
-                        <FormField>
+                        <FormFieldPacote1>
                             <TextField
                                 required
                                 id="outlined-required"
@@ -178,12 +157,10 @@ const DadosPacote = () => {
                                     }
                                 }}
                             />
-                        </FormField>
+                        </FormFieldPacote1>
                         <FormField2>
                             <FormControlLabel
-                                sx={{
-                                    display: 'block',
-                                }}
+                                
                                 label="Logistica Reversa"
                                 control={
                                     <Switch
@@ -196,9 +173,7 @@ const DadosPacote = () => {
 
                             />
                             <FormControlLabel
-                                sx={{
-                                    display: 'block',
-                                }}
+                                
                                 control={
                                     <Switch
                                         checked={packageData.ar}
@@ -212,9 +187,7 @@ const DadosPacote = () => {
                                 label="Aviso de recebimento"
                             />
                             <FormControlLabel
-                                sx={{
-                                    display: 'block',
-                                }}
+                                
                                 control={
                                     <Switch
                                         checked={packageData.own_hands}
@@ -236,9 +209,6 @@ const DadosPacote = () => {
                             />
                             <TextField
                                 required
-                                sx={{
-                                    marginLeft:4
-                                }}
                                 id="outlined-required"
                                 label="Quantidade de items"
                                 name="quantity"

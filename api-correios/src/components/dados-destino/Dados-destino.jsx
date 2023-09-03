@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDataContext } from "../provedor-dados/DataProvider";
 import InputMask from 'react-input-mask';
 import axios from 'axios';
-import { BackColor2, ContainerBtn, ContainerRetangule, FormField, OrangeContainerRetangule, OrangeRetangule, Retangule } from "../../style";
+import { BackColor2, ContainerBtn, ContainerRetangule, FormFieldDestino, OrangeContainerRetangule, OrangeRetangule, Retangule } from "../../style";
 import validateCPF from "../ValidaCPF/ValidateCPF";
 
 //aqui é o Receiver
@@ -108,7 +108,7 @@ const DadosDestino = () => {
             <ContainerRetangule>
                 <Retangule>
                     <h1>Dados de destino</h1>
-                    <FormField>
+                    <FormFieldDestino>
                         <TextField
                             required
                             id="outlined-required"
@@ -170,8 +170,8 @@ const DadosDestino = () => {
                                 />
                             )}
                         </InputMask>
-                    </FormField>
-                    <FormField>
+                    </FormFieldDestino>
+                    <FormFieldDestino>
                         <TextField
                             required
                             id="outlined-required"
@@ -240,7 +240,7 @@ const DadosDestino = () => {
                                 marginTop: 2
                             }}
                         />
-                    </FormField>
+                    </FormFieldDestino>
                     <ContainerBtn>
                         <Button onClick={handleAvancarClick} variant="contained"
                             sx={{

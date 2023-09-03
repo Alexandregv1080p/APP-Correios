@@ -72,11 +72,25 @@ export const BackColor2 = styled.div`
     width: 100%;
     min-height: 100vh;
 `;
-
+export const FormFieldDestino = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    justify-items: center;
+    position: relative;
+    margin: 2vw;
+    @media(max-width: 1221px){
+        justify-content: center;
+        flex-direction: column;
+    }
+`;
 export const OrangeContainerRetangule = styled.div`
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
     padding-top: 10px;
+    margin: 0 auto;
 `;
 
 export const OrangeRetangule = styled.div`
@@ -88,7 +102,9 @@ export const OrangeRetangule = styled.div`
     margin-bottom: 5vw;
     transform: translateX(-50%);
     text-align: center;
+    margin-left: 395px;
     cursor: pointer;
+    
     & p{
         color: white;
         margin-top: 10px;
@@ -121,8 +137,24 @@ export const GreenRetangule = styled.div`
         margin-top: 10px;
         position: relative;
     }
+    @media(max-width:1100px){
+        
+        margin-left: 395px;
+    }
 `;
+export const FormFieldPacote1 = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;   
+    justify-items: center;
+    position: relative;
+    margin: 2vw;
 
+    @media (max-width: 1100px) {
+        width: 100%; 
+        margin: 1vw; 
+    }
+`;
 export const IconContainer = styled.div`
     width: 100vw;
     max-width: 300px;
@@ -132,6 +164,9 @@ export const IconContainer = styled.div`
     transform: translateX(-50%);
     font-size: 3vw;
     text-align: center;
+    @media(max-width:1100px){
+        display: none;
+    }
 `;
 
 export const IconContainer2 = styled.div`
@@ -148,8 +183,10 @@ export const IconContainer2 = styled.div`
 export const ContainerPacote = styled.div`
     display: flex;
     justify-content: center;
-    width: 90vw;
     max-width: 1200px;
+    @media(max-width: 1100px){
+        flex-direction: column;
+    }
 `;
 
 export const OrangeContainerRetangule2 = styled.div`
@@ -157,6 +194,11 @@ export const OrangeContainerRetangule2 = styled.div`
     justify-content: center;
     padding-top: 10px;
     width: 100%;
+    @media(max-width:1100px){
+        flex-direction: column;
+        align-items: center;
+       
+    }
 `;
 
 // Valor Final
@@ -177,8 +219,14 @@ export const OrangeContainerRetangule3 = styled.div`
     padding-top: 10px;
     margin-top: -10vw;
     width: 100%;
+    
 `;
-
+export const FormField2 = styled.div`
+    margin-top: 50px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+`
 export const BlueRetangule = styled.div`
     width: 90vw;
     max-width: 400px;
@@ -199,7 +247,15 @@ export const BlueRetangule = styled.div`
         font-size: 1vw;
     }
 `;
-
+export const FormField3 = styled.div`
+    margin-top:50px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    @media(max-width:550px){
+        flex-direction: column;
+    }
+`
 // Codigo Rastreio
 export const RetanguleCodigo = styled.div`
     width: 90vw;
