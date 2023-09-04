@@ -25,8 +25,16 @@ Basicamente o que se ocorre na primeira Step, o balãozinho com os dados de orig
 
 Step 3
 ------------------------------------------------------------------
-Basicamente o que se ocorre na primeira Step, o balãozinho com os dados de origem aparece na parte superior, e ao clicar nele, será redirecionado para o Step 1, que conterá todas as informações que foram passadas ainda.
+Basicamente o que se ocorre na segunda Step, e ao clicar nos passos que voce cadastrou, será redirecionado para o Step 1 ou Step 2, que conterá todas as informações que foram passadas ainda. Este Step contem a maior parte dos caracteres como
+restrito em tipo number. Ao validar todos os campos, a função calculateShipping será ativada, retornando a Carrier, Price e o Discount, nesta função ja é passado para nós o código do correio, que sera passado para a proxima step.
 
+Step 4
+------------------------------------------------------------------
+Ao realizar a request para o Header valido, obtemos o que nos foi retornado da response da requisição, que no caso foi onde o meu código parou de funcionar, devido ao erro 429. Ao entrarmos neste Step 4, podemos ainda ser rederecionado aos outros Steps que desejarem.
+Outra funcionalidade embutida no back end é o post dos dados para o Banco de Dados do MongoDB, onde ficara registrado todas as nossas requisições que realizamos durante o processo.
 
+Step 5
+------------------------------------------------------------------
+Basicamente é quando é retornado o código do rastreio, que será a response da outra request que fazemos para o Header, nesta página é apenas o código retornado e a possibilidade de realizar uma nova postagem. Após clicar em nova postagem, os dados contidos que inserimos são eliminados, antes do navigate ser ativado a página atualiza, resetando todos os campos anteriores.
 
-
+Esse projeto foi um desenvolvimento incrível que obtive a medida que fui trabalhando nele, aprendi incontaveis coisas e foi um sentimento muito bom ao terminar tudo que construi. Agradeço a empresa por ter me selecionado para esta etapa da candidatura, mesmo que não possa ser escolhido, foi um enorme prazer me colocar para trabalhar em um projeto tão legal quanto esse. Muito obrigado a todos e fiquem bem!
